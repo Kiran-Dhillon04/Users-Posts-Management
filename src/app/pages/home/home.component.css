@@ -1,11 +1,15 @@
 h1 {
   color: #343a40;
   font-weight: bold;
+  margin-top: 5rem;
 }
 
-p.lead {
-  font-size: 1.4rem;
+p{
+  font-size: 1.5rem;
+  font-weight: 300;
   font-style: italic;
   color: #495057;
   margin-top: 1rem;
+  line-height:1.5rem;
 }
+

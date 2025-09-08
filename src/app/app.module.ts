@@ -10,11 +10,21 @@ import { AddUserComponent } from './pages/add-user/add-user.component';
 import { PostsComponent } from './pages/posts/posts.component';
 import { PostsPerUserComponent } from './pages/posts-per-user/posts-per-user.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserDetailsComponent } from './pages/user-details/user-details.component';
+import { UserChartsComponent } from './pages/user-charts/user-charts.component';
+import { NgChartsModule } from 'ng2-charts';
 
-@NgModule({
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { AuthComponent } from './auth/auth/auth.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+
+}@NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
@@ -25,14 +35,24 @@ import { UserDetailsComponent } from './pages/user-details/user-details.componen
     PostsPerUserComponent,
     SettingsComponent,
     UserDetailsComponent,
+    UserChartsComponent,
+    AuthComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,  //Used in Users Component
     FormsModule,  //used in Users Component
-    ReactiveFormsModule  //AddUser Component Modal Form 
-  ],
+    ReactiveFormsModule,  //AddUser Component Modal Form 
+    NgChartsModule,   //charts component
+ TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]  
+      }
+    })  ],
   providers: [],
   bootstrap: [AppComponent]
 })

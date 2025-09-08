@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -6,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+  
+  constructor(public authService: AuthService, private router: Router) {}
 
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']); // redirect to login page after logout
+  }
 }

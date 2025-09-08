@@ -15,7 +15,12 @@ describe('NavbarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create the navbar component', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have a logout method', () => {
+    expect(typeof component.logout).toBe('function');
+  });
+
 });

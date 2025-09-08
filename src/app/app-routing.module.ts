@@ -5,23 +5,37 @@ import { UsersComponent } from './pages/users/users.component';
 import { AddUserComponent } from './pages/add-user/add-user.component';
 import { PostsComponent } from './pages/posts/posts.component';
 import { PostsPerUserComponent } from './pages/posts-per-user/posts-per-user.component';
-import { SettingsComponent } from './pages/settings/settings.component';
 import { UserDetailsComponent } from './pages/user-details/user-details.component';
+import { UserChartsComponent } from './pages/user-charts/user-charts.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { AuthComponent } from './auth/auth/auth.component';
+import { AuthGuard } from './auth/auth/auth.guard';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'add-user', component: AddUserComponent },
-   { path: 'users/:id', component: UserDetailsComponent },
-  { path: 'posts', component:PostsComponent },
-  { path: 'posts-per-user', component: PostsPerUserComponent },
-  { path: 'settings', component: SettingsComponent },
-  { path: '**', redirectTo:'' },
-  
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
+  { path: 'login', component: AuthComponent },
+  { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
+  { path: 'add-user', component: AddUserComponent, canActivate: [AuthGuard] },
+  {
+    path: 'users/:id',
+    component: UserDetailsComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'charts', component: UserChartsComponent, canActivate: [AuthGuard] },
+  { path: 'posts', component: PostsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'posts-per-user',
+    component: PostsPerUserComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

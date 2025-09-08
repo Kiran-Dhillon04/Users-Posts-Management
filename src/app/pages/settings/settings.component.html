@@ -1,1 +1,22 @@
-<p>settings works!</p>
+<div class="settings-container">
+  <h2>{{ 'SETTINGS' | translate }}</h2>
+
+  <div class="setting-item">
+    <label for="language">{{ 'LANGUAGE' | translate }}:</label>
+    <select id="language" [(ngModel)]="selectedLanguage" (change)="changeLanguage()">
+      <option value="en">{{'ENGLISH'|translate}}</option>
+      <option value="hi">{{'HINDI'|translate}}</option>
+    </select>
+  </div>
+
+  <div class="setting-item checkbox-item">
+    <input
+      type="checkbox"
+      id="notifications"
+      [(ngModel)]="notificationsEnabled"
+      (change)="toggleNotifications()"
+    />
+            <label for="notifications">{{ 'NOTIFICATIONS' | translate }}</label>
+
+  </div>
+</div>

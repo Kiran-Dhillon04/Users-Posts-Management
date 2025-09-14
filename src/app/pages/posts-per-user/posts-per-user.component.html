@@ -1,1 +1,46 @@
-<p>posts-per-user works!</p>
+<div class="container">
+
+<!-- header -->
+  <div class="header">
+    <h2>User's Posts</h2>
+    <button type="button" class="back-btn" (click)="backToList()">
+      Back to list
+    </button>
+  </div>
+
+  <!-- spinner -->
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border" role="status">    <span class="visually-hidden">Loading...</span>
+</div>
+  </div>
+
+  <!-- error handler -->
+  <div *ngIf="error" class="alert alert-danger text-center">{{error}}</div>
+
+  <div >
+    <table *ngIf="userPosts && !loading &&!error" class="table  table-bordered table-striped">
+      <thead class="table-dark text-center">
+        <tr>
+          <th>Id</th>
+          <th>Title</th>
+          <th>Tags</th>
+          <th>Likes</th>
+          <th>Dislikes</th>
+          <th>Views</th>
+          <th>UserId</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let posts of userPosts">
+          <td>{{ posts.id }}</td>
+          <td>{{ posts.title }}</td>
+          <td>{{ posts.tags }}</td>
+          <td>{{ posts.reactions.likes }}</td>
+          <td>{{ posts.reactions.dislikes }}</td>
+          <td>{{ posts.views }}</td>
+          <td>{{ posts.userId }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

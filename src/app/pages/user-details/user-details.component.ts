@@ -1,19 +1,16 @@
-// src/app/pages/user-details/user-details.component.ts
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../../services/users.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.css']
 })
-export class UserDetailsComponent implements OnInit, OnDestroy {
-  user: any = null; // using `any` so we can show extra API fields
+export class UserDetailsComponent implements OnInit {
+  user:any; 
   loading = true;
-  error: string | null = null;
-  private sub: Subscription | null = null;
+  error='';
 
   constructor(
     private route: ActivatedRoute,
@@ -21,7 +18,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(){
     const idParam = this.route.snapshot.paramMap.get('id');
     const id = idParam ? Number(idParam) : null;
     if (!id) {
@@ -30,7 +27,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.sub = this.usersService.getUserById(id).subscribe({
+    this.usersService.getUserById(id).subscribe({
       next: (u) => {
         this.user = u;
         this.loading = false;
@@ -42,12 +39,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.sub?.unsubscribe();
-  }
 
-  // helpful: navigate back to users list
-  back() {
+  backToList() {
     this.router.navigate(['/users']);
   }
 }

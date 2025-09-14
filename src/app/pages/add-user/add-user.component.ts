@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../models/user.model';
 import { UsersService } from 'src/app/services/users.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-user',
@@ -10,20 +10,21 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./add-user.component.css']
 })
 export class AddUserComponent implements OnInit {
-  @Input() isModal: boolean = false; // true if opened as modal
-  @Input() userData: User | null = null; 
-  @Output() formSubmit = new EventEmitter<User>();
+  @Input() isModal: boolean = false;
+  @Input() userData: User | null = null;
   @Output() closeModal = new EventEmitter<void>();
 
   userForm!: FormGroup;
   isEdit = false;
-  usernames: string[] = ['alpha', 'beta', 'gamma', 'delta'];
+  usernames: string[] = ['user1', 'user2', 'user3', 'user4'];
+  showExtraFields = false; // Toggle for height & weight fields
 
-  constructor(private fb: FormBuilder, private usersService: UsersService,private router: Router) {}
+  constructor(private fb: FormBuilder, private usersService: UsersService, private router: Router) {}
 
   ngOnInit(): void {
     this.isEdit = !!this.userData;
 
+    // Initialize form
     this.userForm = this.fb.group({
       id: [this.userData?.id || Date.now()],
       firstName: [this.userData?.firstName || '', [Validators.required, Validators.minLength(2)]],
@@ -34,47 +35,38 @@ export class AddUserComponent implements OnInit {
       birthDate: [this.userData?.birthDate || '', Validators.required],
       username: [this.userData?.username || '', Validators.required],
       extraFields: [!!(this.userData?.height || this.userData?.weight)],
-      height: [this.userData?.height || null],
-      weight: [this.userData?.weight || null]
+      height: [this.userData?.height || ''],
+      weight: [this.userData?.weight || '']
     });
 
-    this.userForm.get('extraFields')?.valueChanges.subscribe(checked => {
-      if (checked) {
-        this.userForm.get('height')?.setValidators([Validators.required]);
-        this.userForm.get('weight')?.setValidators([Validators.required]);
-      } else {
-        this.userForm.get('height')?.clearValidators();
-        this.userForm.get('weight')?.clearValidators();
-      }
-      this.userForm.get('height')?.updateValueAndValidity();
-      this.userForm.get('weight')?.updateValueAndValidity();
-    });
+    // Set the toggle based on existing data
+    this.showExtraFields = !!(this.userData?.height || this.userData?.weight);
   }
 
-  get firstName() { return this.userForm.get('firstName')!; }
-  get lastName() { return this.userForm.get('lastName')!; }
-  get email() { return this.userForm.get('email')!; }
-  get phone() { return this.userForm.get('phone')!; }
-  get gender() { return this.userForm.get('gender')!; }
-  get birthDate() { return this.userForm.get('birthDate')!; }
-  get username() { return this.userForm.get('username')!; }
-  get height() { return this.userForm.get('height')!; }
-  get weight() { return this.userForm.get('weight')!; }
-
-onSubmit() {
-  if (this.userForm.invalid) { this.userForm.markAllAsTouched(); return; }
-  const user: User = this.userForm.value;
-  if (this.isEdit) this.usersService.updateUser(user);
-  else this.usersService.addUser(user);
-  this.close();
-}
-
-close() {
-  if (this.isModal) {
-    this.closeModal.emit(); // tells parent to hide modal
-  } else {
-    // optional: navigate to users page if standalone
-    this.router.navigate(['/users']);
+  onExtraFieldsChange() {
+    this.showExtraFields = !this.showExtraFields;
+    if (!this.showExtraFields) {
+      this.userForm.get('height')?.setValue('');
+      this.userForm.get('weight')?.setValue('');
+    }
   }
-}
+
+  onSubmit() {
+    if (this.userForm.invalid) {
+      this.userForm.markAllAsTouched();
+      return;
+    }
+
+    const user: User = this.userForm.value;
+
+    if (this.isEdit) this.usersService.editUser(user);
+    else this.usersService.addUser(user);
+
+    this.close();
+  }
+
+  close() {
+    if (this.isModal) this.closeModal.emit();
+    else this.router.navigate(['/users']);
+  }
 }

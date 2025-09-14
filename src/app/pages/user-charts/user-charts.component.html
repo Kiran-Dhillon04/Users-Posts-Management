@@ -1,13 +1,9 @@
-<div class="container mt-4">
-<!-- <h3 class="mb-4 text-center fw-bold display-6 text-dark shadow-sm p-2 rounded">
-  User Charts
-</h3> -->
-
+<div class="container">
   <!-- Blood Group Chart Card -->
-  <div class="row justify-content-center mb-4">
-    <div class="col-12 col-md-10 col-lg-8">
-      <div class="card shadow-sm rounded p-3">
-        <h5 class="text-center mb-3">Blood Group Distribution</h5>
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <h5 class="card-title">Blood Group Distribution</h5>
         <canvas baseChart
                 [data]="bloodGroupChartData"
                 [type]="'bar'">
@@ -17,10 +13,10 @@
   </div>
 
   <!-- Age Group Chart Card -->
-  <div class="row justify-content-center mb-4">
-    <div class="col-12 col-md-10 col-lg-8">
-      <div class="card shadow-sm rounded p-3">
-        <h5 class="text-center mb-3">Age Group Distribution</h5>
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <h5 class="card-title">Age Group Distribution</h5>
         <canvas baseChart
                 [data]="ageGroupChartData"
                 [type]="'line'">

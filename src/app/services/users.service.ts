@@ -22,11 +22,10 @@ export class UsersService {
     }
   }
 
-  // ✅ Fetch users from API ONCE if no localStorage
+  // fetching data from API
   fetchUsers(): Observable<{ users: User[] }> {
     return this.http.get<{ users: User[] }>(this.apiUrl).pipe(
       tap(res => {
-        // Save API users to localStorage only first time
         if (!localStorage.getItem('users')) {
           this.setUsers(res.users);
         }
@@ -34,14 +33,14 @@ export class UsersService {
     );
   }
 
-  // ✅ Central update function
-  private setUsers(users: User[]): void {
+  // Central update function
+  private setUsers(users: User[]) {
     this.usersSubject.next(users);
     localStorage.setItem('users', JSON.stringify(users));
   }
 
-  // ✅ Add new user with unique ID
-  addUser(user: User): void {
+  // Add new user with unique ID
+  addUser(user: User) {
     const current = this.usersSubject.getValue();
     const newId = current.length > 0 ? Math.max(...current.map(u => u.id)) + 1 : 1;
     const newUser = { ...user, id: newId };
@@ -50,39 +49,24 @@ export class UsersService {
     this.setUsers(updated);
   }
 
-  // ✅ Update user
-  updateUser(updatedUser: User): void {
+  // Update user
+ editUser(editedUser: User) {
     const updatedList = this.usersSubject.getValue().map(u =>
-      u.id === updatedUser.id ? { ...u, ...updatedUser } : u
+      u.id === editedUser.id ? { ...u, ...editedUser } : u
     );
     this.setUsers(updatedList);
   }
 
-  // ✅ Delete user
-  deleteUser(id: number): void {
+  // Delete user
+  deleteUser(id: number){
     const updatedList = this.usersSubject.getValue().filter(u => u.id !== id);
     this.setUsers(updatedList);
   }
 
-  /** Return a single user by id.
- *  First check local BehaviorSubject (localStorage), then fallback to API.
- */
-getUserById(id: number) {
-  const current = this.usersSubject.getValue();
-  const found = current.find(u => u.id === id);
-  if (found) {
-    // return an observable of the local user (keeps UI reactive)
-    return of(found);
-  }
 
-  // fallback to API (dummyjson) if not in local list
-  return this.http.get<any>(`https://dummyjson.com/users/${id}`).pipe(
-    // do not overwrite local storage automatically; just return the API result.
-    catchError(err => {
-      // rethrow or return of(null) depending on how you handle errors
-      throw err;
-    })
-  );
+  // userDetail: Return a single user by id.
+getUserById(id: number) {
+  return this.http.get<any>(`https://dummyjson.com/users/${id}`);
 }
 
 }

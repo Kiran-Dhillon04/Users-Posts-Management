@@ -17,18 +17,18 @@ export class UsersComponent implements OnInit {
   genderFilter = '';
   ageFilter = '';
 
-  sortKey: 'age' | 'phone' | '' = '';
+  sort: 'age' | 'phone' | '' = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
   currentPage = 1;
   itemsPerPage = 10;
 
   showModal = false;
-  selectedUser: User | null = null; // for edit/add
+  selectedUser: User | null = null; 
 
   constructor(public usersService: UsersService) {}
 
-  ngOnInit(): void {
+  ngOnInit(){
     // Subscribe to BehaviorSubject for live updates
     this.usersService.users$.subscribe(users => this.users = users);
 
@@ -41,8 +41,7 @@ export class UsersComponent implements OnInit {
       }
     });
   }
-
-  /** Calculate age from birth date */
+//  Calculate age from birth date 
   getAge(birthDate: string): number {
     const birth = new Date(birthDate);
     const today = new Date();
@@ -53,7 +52,20 @@ export class UsersComponent implements OnInit {
     return age;
   }
 
-  /** Filter, search, and sort users */
+    //  Sorting handler 
+  sortData(key: 'age' | 'phone') {
+    if (this.sort === key) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    }
+    else {
+      this.sort = key;
+      this.sortDirection = 'asc';
+    }
+  }
+
+
+
+  //  Filter, search, and sort users 
   filteredUsers(): User[] {
     let filtered = [...this.users];
 
@@ -85,15 +97,15 @@ export class UsersComponent implements OnInit {
     }
 
     // Sorting
-    if (this.sortKey) {
+    if (this.sort) {
       filtered.sort((a, b) => {
         let valueA: number | string = '';
         let valueB: number | string = '';
 
-        if (this.sortKey === 'age') {
+        if (this.sort === 'age') {
           valueA = this.getAge(a.birthDate);
           valueB = this.getAge(b.birthDate);
-        } else if (this.sortKey === 'phone') {
+        } else if (this.sort === 'phone') {
           valueA = a.phone;
           valueB = b.phone;
         }
@@ -105,41 +117,35 @@ export class UsersComponent implements OnInit {
     return filtered;
   }
 
-  /** Pagination helpers */
+  // Pagination 
+  
+    totalPages():number[]{
+    const total = Math.ceil(this.filteredUsers().length / this.itemsPerPage);
+      const pages = [];
+      for (let i = 1; i <= total; i++){
+        pages.push(i);
+      }
+      return pages;
+  }
+
   paginatedUsers(): User[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     return this.filteredUsers().slice(start, start + this.itemsPerPage);
   }
 
-  totalPages(): number[] {
-    const total = Math.ceil(this.filteredUsers().length / this.itemsPerPage);
-    return Array.from({ length: total }, (_, i) => i + 1);
-  }
 
   changePage(page: number) {
     if (page >= 1 && page <= this.totalPages().length) this.currentPage = page;
   }
 
-  /** Sorting handler */
-  sortData(key: 'age' | 'phone') {
-    if (this.sortKey === key) this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-    else {
-      this.sortKey = key;
-      this.sortDirection = 'asc';
-    }
-  }
-
-  /** Delete user */
+  //  Delete user 
   deleteUser(userId: number) {
     if (confirm('Are you sure you want to delete this user?')) {
       this.usersService.deleteUser(userId);
     }
   }
-
-  openAddModal() { this.selectedUser = null; this.showModal = true; }
   
 editUser(user: User) { this.selectedUser = user; this.showModal = true; }
-
 
 closeModal() {
   this.showModal = false;

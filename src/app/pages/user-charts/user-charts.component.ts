@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../services/users.service';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-user-charts',
@@ -12,27 +13,37 @@ export class UserChartsComponent implements OnInit {
 
   constructor(private usersService: UsersService) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.usersService.users$.subscribe(users => {
       this.prepareBloodGroupChart(users);
       this.prepareAgeGroupChart(users);
     });
   }
 
-  prepareBloodGroupChart(users: any[]) {
-    const groups = users.reduce((acc: any, u: any) => {
-      acc[u.bloodGroup] = (acc[u.bloodGroup] || 0) + 1;
-      return acc;
-    }, {});
+prepareBloodGroupChart(users: any[]) {
+  const groups: any = {};
 
-    this.bloodGroupChartData = {
-      labels: Object.keys(groups),
-      datasets: [
-        { data: Object.values(groups), label: 'Blood Groups', backgroundColor: 'rgba(54, 162, 235, 0.5)' }
-      ]
-    };
-  }
+  users.forEach(user => {
+    if (groups[user.bloodGroup]) {
+      groups[user.bloodGroup]++;
+    } else {
+      groups[user.bloodGroup] = 1;
+    }
+  });
 
+  this.bloodGroupChartData = {
+    labels: Object.keys(groups),
+    datasets: [
+      {
+        data: Object.values(groups),
+        label: 'Blood Groups',
+        backgroundColor: 'rgba(54, 162, 235, 0.5)'
+      }
+    ]
+  };
+}
+  
+  
   prepareAgeGroupChart(users: any[]) {
     const ageBuckets = { '<20': 0, '20-29': 0, '30-39': 0, '40-49': 0, '50+': 0 };
 
@@ -48,7 +59,7 @@ export class UserChartsComponent implements OnInit {
     this.ageGroupChartData = {
       labels: Object.keys(ageBuckets),
       datasets: [
-        { data: Object.values(ageBuckets), label: 'Age Groups', fill: false, borderColor: 'rgb(75, 192, 192)' }
+        { data: Object.values(ageBuckets), label: 'Age Groups', borderColor: 'rgb(75, 192, 192)' }
       ]
     };
   }

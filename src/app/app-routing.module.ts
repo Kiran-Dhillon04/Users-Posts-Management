@@ -11,6 +11,7 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { AuthComponent } from './auth/auth/auth.component';
 import { AuthGuard } from './auth/auth/auth.guard';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { PostChartComponent } from './pages/post-chart/post-chart.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -18,18 +19,20 @@ const routes: Routes = [
   { path: 'login', component: AuthComponent },
   { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
   { path: 'add-user', component: AddUserComponent, canActivate: [AuthGuard] },
+  { path: 'posts-per-user', component: PostsPerUserComponent, canActivate: [AuthGuard] },
   {
-    path: 'users/:id',
+    path: 'users-detail/:id',
     component: UserDetailsComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'charts', component: UserChartsComponent, canActivate: [AuthGuard] },
+  { path: 'user-charts', component: UserChartsComponent, canActivate: [AuthGuard] },
   { path: 'posts', component: PostsComponent, canActivate: [AuthGuard] },
   {
-    path: 'posts-per-user',
+    path: 'posts-per-user/:userId',
     component: PostsPerUserComponent,
     canActivate: [AuthGuard],
   },
+    { path: 'posts-charts', component: PostChartComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: '**', component: PageNotFoundComponent },
 ];

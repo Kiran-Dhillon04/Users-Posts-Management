@@ -1,46 +1,53 @@
 <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content">
+    <div class="modal-content" >
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-<!-- Modal header -->
-<div class="modal-header">
-  <h5 class="modal-title">{{ isEdit ? 'Edit User' : 'Add New User' }}</h5>
-  <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
-</div>
+        <!-- Modal header -->
+        <div class="modal-header">
+          <h5 class="modal-title">{{ isEdit ? 'Edit User' : 'Add New User' }}</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+        </div>
+
+        <!-- Modal body -->
         <div class="modal-body">
           <div class="row g-2">
+            <!-- First Name -->
             <div class="col-md-6">
               <label class="form-label">First Name</label>
               <input formControlName="firstName" class="form-control" />
-              <div *ngIf="firstName.touched && firstName.invalid" class="text-danger small">
+              <div *ngIf="userForm.controls['firstName'].touched && userForm.controls['firstName'].invalid" class="text-danger small">
                 First name is required (min 2 chars)
               </div>
             </div>
 
+            <!-- Last Name -->
             <div class="col-md-6">
               <label class="form-label">Last Name</label>
               <input formControlName="lastName" class="form-control" />
-              <div *ngIf="lastName.touched && lastName.invalid" class="text-danger small">
+              <div *ngIf="userForm.controls['lastName'].touched && userForm.controls['lastName'].invalid" class="text-danger small">
                 Last name is required
               </div>
             </div>
 
+            <!-- Email -->
             <div class="col-md-6">
               <label class="form-label">Email</label>
               <input formControlName="email" type="email" class="form-control" />
-              <div *ngIf="email.touched && email.invalid" class="text-danger small">
+              <div *ngIf="userForm.controls['email'].touched && userForm.controls['email'].invalid" class="text-danger small">
                 Valid email required
               </div>
             </div>
 
+            <!-- Phone -->
             <div class="col-md-6">
               <label class="form-label">Phone</label>
               <input formControlName="phone" class="form-control" />
-              <div *ngIf="phone.touched && phone.invalid" class="text-danger small">
+              <div *ngIf="userForm.controls['phone'].touched && userForm.controls['phone'].invalid" class="text-danger small">
                 Phone is required
               </div>
             </div>
 
+            <!-- Gender -->
             <div class="col-md-4">
               <label class="form-label">Gender</label>
               <select formControlName="gender" class="form-select">
@@ -49,54 +56,60 @@
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
-              <div *ngIf="gender.touched && gender.invalid" class="text-danger small">
+              <div *ngIf="userForm.controls['gender'].touched && userForm.controls['gender'].invalid" class="text-danger small">
                 Gender required
               </div>
             </div>
 
+            <!-- Birth Date -->
             <div class="col-md-4">
               <label class="form-label">Birth Date</label>
               <input formControlName="birthDate" type="date" class="form-control" />
-              <div *ngIf="birthDate.touched && birthDate.invalid" class="text-danger small">
+              <div *ngIf="userForm.controls['birthDate'].touched && userForm.controls['birthDate'].invalid" class="text-danger small">
                 Birth date required
               </div>
             </div>
 
+            <!-- Username -->
             <div class="col-md-4">
               <label class="form-label">Username</label>
               <select formControlName="username" class="form-select">
                 <option value="">Choose username</option>
                 <option *ngFor="let u of usernames" [value]="u">{{ u }}</option>
               </select>
-              <div *ngIf="username.touched && username.invalid" class="text-danger small">
+              <div *ngIf="userForm.controls['username'].touched && userForm.controls['username'].invalid" class="text-danger small">
                 Username required
               </div>
             </div>
 
+            <!-- Extra Fields Toggle -->
             <div class="col-12">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" formControlName="extraFields" />
+                <input class="form-check-input" type="checkbox" [checked]="showExtraFields" (change)="onExtraFieldsChange()" />
                 <label class="form-check-label">Add Height / Weight</label>
               </div>
             </div>
 
-            <div class="col-md-6" *ngIf="userForm.get('extraFields')!.value">
+            <!-- Height -->
+            <div class="col-md-6" *ngIf="showExtraFields">
               <label class="form-label">Height</label>
-              <input formControlName="height" class="form-control" />
+              <input formControlName="height" class="form-control" [required]="showExtraFields" />
             </div>
 
-            <div class="col-md-6" *ngIf="userForm.get('extraFields')!.value">
+            <!-- Weight -->
+            <div class="col-md-6" *ngIf="showExtraFields">
               <label class="form-label">Weight</label>
-              <input formControlName="weight" class="form-control" />
+              <input formControlName="weight" class="form-control" [required]="showExtraFields" />
             </div>
           </div>
         </div>
 
-<!-- Modal footer -->
-<div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
-  <button type="submit" class="btn btn-primary">{{ isEdit ? 'Update User' : 'Add User' }}</button>
-</div>      </form>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+          <button type="submit" class="btn btn-primary">{{ isEdit ? 'Update User' : 'Add User' }}</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

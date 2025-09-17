@@ -1,0 +1,43 @@
+<div class="modal fade show d-block p-5" >
+    <div class="modal-dialog modal-sm modal-dialog-centered ">
+        <div class="modal-content">
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+
+
+        <!-- modal header -->
+<div class="modal-header">
+    <h5 class="modal-title">Edit Post</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="close()" ></button>
+</div>
+
+<!-- modal body -->
+ <div class="modal-body">
+    
+ <div class="mb-3">
+    <label class="form-label">Title</label>
+    <input formControlName="title" class="form-control" type="text" >
+    <div *ngIf="postForm.controls['title'].touched && postForm.controls['title'].invalid" class="text-danger small">Title is required!
+    </div>
+ </div>
+
+ <div class="mb-3">
+    <label class="form-label" >Tags</label>
+    <input formControlName="tags" class="form-control" type="text">
+    <div *ngIf="postForm.controls['tags'].touched && postForm.controls['tags'].invalid" class="text-danger small">
+        Tags are required!
+    </div>
+ </div>
+</div>
+
+<div class="modal-footer"> 
+    <div>
+    <button type="button" class="btn btn-secondary btn-sm  " (click)="close()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-sm " >Update Post</button>
+ </div>
+ </div>
+
+    </form>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade show"></div>

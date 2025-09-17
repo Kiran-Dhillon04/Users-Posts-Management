@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 export class AuthService {
 
   login(email: string, password: string): boolean {
-    // Mock authentication (replace with real API later)
     if (email === 'kiran@gmail.com' && password === '123456') {
       const fakeToken = 'mock-jwt-token';
       localStorage.setItem('token', fakeToken);

@@ -48,7 +48,7 @@
   <div class="table-responsive rounded mt-3">
     <table
       *ngIf="!loading && !error"
-      class="table table-bordered table-striped table-hover align-middle text-center shadow-sm"
+      class="table table-bordered table-striped table-hover align-middle text-center shadow-sm table-responsive"
     >
       <thead class="table-dark">
         <tr>
@@ -108,7 +108,7 @@
                   >
                 </li>
                 <li class="dropdown-item">
-                  <span (click)="editPost(post.id)">Edit</span>
+                  <span (click)="editPost(post)">Edit</span>
                 </li>
                 <li class="dropdown-item">
                   <span (click)="deletePost(post.id)">Delete</span>
@@ -155,3 +155,9 @@
     </nav>
   </div>
 </div>
+
+<app-post-form-modal
+*ngIf="showModal"
+[postData]="selectedPost"
+(closeModal)="closeModal()"
+></app-post-form-modal>

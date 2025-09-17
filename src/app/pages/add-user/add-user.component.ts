@@ -17,14 +17,14 @@ export class AddUserComponent implements OnInit {
   userForm!: FormGroup;
   isEdit = false;
   usernames: string[] = ['user1', 'user2', 'user3', 'user4'];
-  showExtraFields = false; // Toggle for height & weight fields
+  showExtraFields = false; 
 
   constructor(private fb: FormBuilder, private usersService: UsersService, private router: Router) {}
 
   ngOnInit(): void {
     this.isEdit = !!this.userData;
 
-    // Initialize form
+    // form group and controls
     this.userForm = this.fb.group({
       id: [this.userData?.id || Date.now()],
       firstName: [this.userData?.firstName || '', [Validators.required, Validators.minLength(2)]],

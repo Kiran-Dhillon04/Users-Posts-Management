@@ -22,8 +22,8 @@ export class PostsComponent implements OnInit {
   sort: 'likes' | 'dislikes' | 'views' |''= '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  selectedPost = '';
-  showModal = '';
+  selectedPost:Post|null=null;
+  showModal:boolean=false;
 
   constructor(public postsService: PostsService,private router:Router) {}
 
@@ -129,14 +129,20 @@ export class PostsComponent implements OnInit {
 
   // Action Logic
 
-  editPost(id: number) {
-
+  editPost(post:Post) {
+    this.selectedPost = post;
+    this.showModal = true;
   }
 
   deletePost(id: number) {
     if (confirm('Are you sure you want to delete this post?')) {
       this.postsService.deletePost(id);
     }
+  }
+
+  closeModal() {
+    this.showModal = false;
+    this.selectedPost = null;
   }
 
 }

@@ -39,7 +39,7 @@ export class UsersService {
     localStorage.setItem('users', JSON.stringify(users));
   }
 
-  // Add new user with unique ID
+  // Add new user with creating new id
   addUser(user: User) {
     const current = this.usersSubject.getValue();
     const newId = current.length > 0 ? Math.max(...current.map(u => u.id)) + 1 : 1;

@@ -35,23 +35,15 @@ export class PostsService {
   // centeral function that emit to local storage and BehaviorSubject
   private setPosts(posts: Post[]) {
     this.postsSubject.next(posts);
-    localStorage.setItem('Posts', JSON.stringify(posts));
+    localStorage.setItem('posts', JSON.stringify(posts));
   }
 
-  addPost(post: Post[]) {
-    const current = this.postsSubject.getValue();
-    const newId =
-      current.length > 0 ? Math.max(...current.map((p) => p.id)) + 1 : 1;
-    const newPost = { ...post, id: newId };
-
-    const updateList = [...current, ...newPost];
-    this.setPosts(updateList);
-  }
 
   editPost(editedPost: Post) {
     const updatedList = this.postsSubject
       .getValue()
-      .map((p) => (p.id === editedPost.id ? { ...p, ...editedPost } : p));
+      .map((p) => (p.id === editedPost.id ? { ...p,  title: editedPost.title,
+          tags: editedPost.tags } : p));
     this.setPosts(updatedList);
   }
 

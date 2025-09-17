@@ -16,7 +16,7 @@ export class AuthComponent {
 
   onLogin() {
     if (this.authService.login(this.email, this.password)) {
-      this.router.navigate(['/home']); // redirect after login
+      this.router.navigate(['/home']); 
     } else {
       this.loginError = 'Invalid email or password';
     }

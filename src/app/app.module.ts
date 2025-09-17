@@ -21,6 +21,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AuthComponent } from './auth/auth/auth.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { PostChartComponent } from './pages/post-chart/post-chart.component';
+import { PostFormModalComponent } from './pages/post-form-modal/post-form-modal.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -39,16 +40,16 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserChartsComponent,
     AuthComponent,
     PageNotFoundComponent,
-    PostsComponent,
     PostChartComponent,
+    PostFormModalComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,  //Used in Users Component
-    FormsModule,  //used in Users Component
-    ReactiveFormsModule,  //AddUser Component Modal Form 
-    NgChartsModule,   //charts component
+    HttpClientModule,  
+    FormsModule,  
+    ReactiveFormsModule,  
+    NgChartsModule,   
  TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

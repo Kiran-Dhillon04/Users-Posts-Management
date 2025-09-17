@@ -1,20 +1,21 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PostChartComponent } from './post-chart.component';
 
 
-// describe('PostChartComponent', () => {
-//   let component: PostChartCompon;
-//   let fixture: ComponentFixture<PostChartComponent>;
+describe('PostChartComponent', () => {
+  let component: PostChartComponent;
+  let fixture: ComponentFixture<PostChartComponent>;
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [PostChartComponent]
-//     });
-//     fixture = TestBed.createComponent(PostChartComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [PostChartComponent]
+    });
+    fixture = TestBed.createComponent(PostChartComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

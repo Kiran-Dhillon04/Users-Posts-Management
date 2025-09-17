@@ -12,8 +12,7 @@ export class SettingsComponent implements OnInit {
 
   constructor(private translate: TranslateService) {}
 
-  ngOnInit(): void {
-    // Load saved preferences
+  ngOnInit() {
     this.selectedLanguage = localStorage.getItem('language') || 'en';
     this.notificationsEnabled = localStorage.getItem('notifications') === 'false' ? false : true;
 
